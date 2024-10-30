@@ -24,12 +24,21 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField("String" , "Base_Url" , "\"https://api.coincap.io/v2/\"")
+        }
         release {
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+
+            buildConfigField("String" , "Base_Url" , "\"https://api.coincap.io/v2/\"")
+
         }
     }
     compileOptions {
@@ -62,6 +71,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.bundles.koin)
+    implementation(libs.bundles.ktor)
 
 
 
@@ -72,12 +82,6 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
-
-
-        // retrofit
-        implementation (libs.retrofit)
-        // gson converter
-        implementation (libs.converter.gson)
 
 }
 java {
