@@ -16,8 +16,7 @@ class CryptoTrackerApp : Application() {
             androidLogger()
 
             modules(appModule)
-
         }
-    }
 
+    }
 }

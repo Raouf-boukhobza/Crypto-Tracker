@@ -6,8 +6,10 @@ import com.plcoding.cryptotracker.core.domain.util.onError
 import com.plcoding.cryptotracker.core.domain.util.onSuccess
 import com.plcoding.cryptotracker.crypto.domain.CoinDataSource
 import com.plcoding.cryptotracker.crypto.presentation.models.toCoinUi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -18,9 +20,13 @@ class CoinListViewModel (
     private val _state = MutableStateFlow(CoinListState())
     val state = _state.asStateFlow()
 
+    private val _event = Channel<CoinListEvent>()
+    val event = _event.receiveAsFlow()
     init {
         loadCoins()
     }
+
+
 
     private fun loadCoins(){
         viewModelScope.launch {
@@ -41,12 +47,13 @@ class CoinListViewModel (
                     }
                 }
 
-                .onError {
+                .onError {error ->
                     _state.update {
                         it.copy(
                             isLoading = false
                         )
                     }
+                    _event.send(CoinListEvent.Error(error))
                 }
         }
     }
