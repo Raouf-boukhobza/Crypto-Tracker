@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.plcoding.cryptotracker.crypto.presentation.coinList.CoinListScreen
 import com.plcoding.cryptotracker.crypto.presentation.coinList.CoinListViewModel
+import com.plcoding.cryptotracker.crypto.presentation.coin_detail.CoinDetailScreen
 import com.plcoding.cryptotracker.ui.theme.CryptoTrackerTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -25,11 +26,19 @@ class MainActivity : ComponentActivity() {
 
                     val viewModel = koinViewModel<CoinListViewModel>()
                     val state by viewModel.state.collectAsStateWithLifecycle()
-                    CoinListScreen(
-                        coinListState = state,
-                        events = viewModel.event,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+                    when {
+                        state.selectedCoin != null -> CoinDetailScreen(
+                            state = state,
+                            modifier = Modifier.padding(innerPadding))
+                        else -> CoinListScreen(
+                            coinListState = state,
+                            events = viewModel.event,
+                            onActions = viewModel::onAction,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
+
                 }
             }
         }

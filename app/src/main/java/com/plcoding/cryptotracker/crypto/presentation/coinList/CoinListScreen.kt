@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.emptyFlow
 fun CoinListScreen(
     coinListState : CoinListState,
     events : Flow<CoinListEvent>,
+    onActions : (CoinListActions) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -68,7 +69,9 @@ fun CoinListScreen(
             items(coinListState.coins){coinUi ->
                 CoinListItem(
                     coinUi = coinUi,
-                    onClick = {},
+                    onClick = {
+                        onActions(CoinListActions.OnCoinClick(coinUi))
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
                 HorizontalDivider()
@@ -90,7 +93,8 @@ private fun PreviewScreen() {
             events = emptyFlow(),
             modifier = Modifier.background(
                 MaterialTheme.colorScheme.background
-            )
+            ),
+            onActions = {}
         )
     }
 

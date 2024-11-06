@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.cryptotracker.core.domain.util.onError
 import com.plcoding.cryptotracker.core.domain.util.onSuccess
 import com.plcoding.cryptotracker.crypto.domain.CoinDataSource
+import com.plcoding.cryptotracker.crypto.presentation.models.CoinUi
 import com.plcoding.cryptotracker.crypto.presentation.models.toCoinUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,23 +13,24 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
 
-class CoinListViewModel (
+class CoinListViewModel(
     private val coinDataSource: CoinDataSource
-): ViewModel() {
+) : ViewModel() {
 
     private val _state = MutableStateFlow(CoinListState())
     val state = _state.asStateFlow()
 
     private val _event = Channel<CoinListEvent>()
     val event = _event.receiveAsFlow()
+
     init {
         loadCoins()
     }
 
 
-
-    private fun loadCoins(){
+    private fun loadCoins() {
         viewModelScope.launch {
             _state.update {
                 it.copy(
@@ -38,7 +40,7 @@ class CoinListViewModel (
 
             coinDataSource
                 .getCoin()
-                .onSuccess {coin ->
+                .onSuccess { coin ->
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -47,7 +49,7 @@ class CoinListViewModel (
                     }
                 }
 
-                .onError {error ->
+                .onError { error ->
                     _state.update {
                         it.copy(
                             isLoading = false
@@ -59,11 +61,36 @@ class CoinListViewModel (
     }
 
 
-    fun onAction(action : CoinListActions){
-        when(action) {
+    fun onAction(action: CoinListActions) {
+        when (action) {
             is CoinListActions.OnCoinClick -> {
-
+                selectCoin(action.coinUi)
             }
         }
     }
+
+    private fun selectCoin(coinUi: CoinUi) {
+        _state.update {
+            it.copy(
+                selectedCoin = coinUi
+            )
+        }
+
+        viewModelScope.launch {
+            coinDataSource
+                .getCoinHistory(
+                    coinId = coinUi.id,
+                    start = ZonedDateTime.now().minusDays(5),
+                    end = ZonedDateTime.now()
+                )
+                .onSuccess { history ->
+                    println(history)
+                }
+                .onError {error ->
+                    _event.send(CoinListEvent.Error(error))
+                }
+        }
+
+    }
+
 }
