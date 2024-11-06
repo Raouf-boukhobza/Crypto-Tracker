@@ -5,4 +5,7 @@
     <string name="error_no_internet">Couldn\'t connect to Server, Please check your internet connection.</string>
     <string name="error_Unknown">Somting went wrong , Please try again latter.</string>
     <string name="error_serialization">Couldn\'t serialize or deserialize the data.</string>
+    <string name="market_cap">Market Cap\n</string>
+    <string name="price">Price</string>
+    <string name="change_last_24hr">Change last 24h</string>
 </resources>

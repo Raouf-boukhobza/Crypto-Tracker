@@ -15,21 +15,23 @@ import kotlinx.serialization.json.Json
 
 object HttpClientFactory {
 
-    fun create(engine : HttpClientEngine) : HttpClient {
-        return HttpClient(engine){
+    fun create(engine: HttpClientEngine): HttpClient {
+        return HttpClient(engine) {
 
 
-            install(Logging){
+            install(Logging) {
                 level = LogLevel.ALL
                 logger = Logger.ANDROID
             }
-            install(ContentNegotiation){
+
+            install(ContentNegotiation) {
                 json(
                     json = Json {
                         ignoreUnknownKeys = true
                     }
                 )
             }
+
             defaultRequest {
                 contentType(ContentType.Application.Json)
             }
