@@ -16,8 +16,6 @@ Ktor Client: For making HTTP requests to fetch cryptocurrency data.
 Kotlin Coroutines and Flow: Handles asynchronous programming and real-time updates.
 Channels: Manages one-time events and communication between coroutines.
 ## Screenshots
-![List Screen](Screenshot_2024-11-07-18-46-41-636_com.plcoding.cryptotracker.jpg)
-![List Screen](Screenshot_2024-11-07-18-46-55-588_com.plcoding.cryptotracker.jpg)
+<img src="./Screenshot_2024-11-07-18-46-41-636_com.plcoding.cryptotracker.jpg" alt="Home Screen" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Screenshot_2024-11-07-18-46-55-588_com.plcoding.cryptotracker.jpg" alt="Home Screen" width="200"/><br/><br/>
+<img src="./Screenshot_2024-11-07-18-46-45-970_com.plcoding.cryptotracker.jpg" alt="Home Screen" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Screenshot_2024-11-07-18-47-06-548_com.plcoding.cryptotracker.jpg" alt="Home Screen" width="200"/>
 
-![Detail Screen](Screenshot_2024-11-07-18-46-45-970_com.plcoding.cryptotracker.jpg)
-![Detail Screen](Screenshot_2024-11-07-18-47-06-548_com.plcoding.cryptotracker.jpg)
